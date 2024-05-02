@@ -23,11 +23,17 @@ document.addEventListener('DOMContentLoaded', () => {
             card.setAttribute('data-id', index);
             card.setAttribute('role', 'gridcell');
             card.setAttribute('aria-label', item.alt);
+            card.setAttribute('tabindex', '0');
             const img = document.createElement('img');
             img.setAttribute('src', `${item.name}.png`);
             img.setAttribute('alt', item.alt);
             card.appendChild(img);
             card.addEventListener('click', flipCard);
+            card.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    flipCard.call(this);
+                }
+            });
             game.appendChild(card);
         });
     }
@@ -35,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function flipCard() {
         const selected = this;
         const cardId = selected.getAttribute('data-id');
-        cardsChosen.push(cardImages[Math.floor(cardId / 2)].name);
+        cardsChosen.push(selected.firstChild.src);
         cardsChosenIds.push(cardId);
         selected.firstChild.style.display = 'block';
 
